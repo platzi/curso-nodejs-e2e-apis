@@ -70,6 +70,7 @@ lib-cov
 
 # Coverage directory used by tools like istanbul
 coverage
+coverage_e2e
 *.lcov
 
 # nyc test coverage
