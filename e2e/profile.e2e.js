@@ -1,6 +1,7 @@
 const request = require('supertest');
 const createApp = require('./../src/app');
-const { models } = require('./../src/db/sequelize')
+const { models } = require('./../src/db/sequelize');
+const { upSeed, downSeed } = require('./utils/seed');
 
 describe('tests for /profile path', () => {
 
@@ -9,10 +10,11 @@ describe('tests for /profile path', () => {
   let api = null;
   let accessToken = null;
 
-  beforeAll(() => {
+  beforeAll(async () => {
     app = createApp();
     server = app.listen(9000);
     api = request(app);
+    await upSeed();
   });
 
   describe('GET /my-user with admin user', () => {
@@ -59,7 +61,8 @@ describe('tests for /profile path', () => {
   });
 
 
-  afterAll(() => {
+  afterAll(async () => {
+    await downSeed();
     server.close();
   })
 });
