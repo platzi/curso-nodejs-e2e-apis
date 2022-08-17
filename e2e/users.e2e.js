@@ -8,7 +8,7 @@ describe('tests for /users path', () => {
   let server = null;
   let api = null;
 
-  beforeEach(() => {
+  beforeAll(() => {
     app = createApp();
     server = app.listen(9000);
     api = request(app);
@@ -55,7 +55,7 @@ describe('tests for /users path', () => {
   });
 
 
-  afterEach(() => {
+  afterAll(() => {
     server.close();
   })
 });
