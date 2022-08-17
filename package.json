@@ -11,6 +11,8 @@
     "migrations:run": "sequelize-cli db:migrate",
     "migrations:revert": "sequelize-cli db:migrate:undo",
     "migrations:delete": "sequelize-cli db:migrate:undo:all",
+    "seed:all": "sequelize-cli db:seed:all",
+    "seed:undo": "sequelize-cli db:seed:undo:all",
     "e2e": "NODE_ENV=e2e jest --config ./jest-e2e.json --verbose --forceExit --runInBand",
     "e2e:coverage": "NODE_ENV=e2e jest --config ./jest-e2e.json --verbose --forceExit --coverage"
   },
