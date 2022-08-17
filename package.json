@@ -43,6 +43,7 @@
     "passport-local": "1.0.0",
     "pg": "8.7.3",
     "sequelize": "6.21.3",
-    "sequelize-cli": "6.4.1"
+    "sequelize-cli": "6.4.1",
+    "umzug": "^3.2.1"
   }
 }
