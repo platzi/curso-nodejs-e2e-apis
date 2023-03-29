@@ -11,8 +11,8 @@
     "migrations:run": "sequelize-cli db:migrate",
     "migrations:revert": "sequelize-cli db:migrate:undo",
     "migrations:delete": "sequelize-cli db:migrate:undo:all",
-    "e2e": "jest --verbose --detectOpenHandles --forceExit",
-    "e2e:coverage": "jest --verbose --detectOpenHandles --forceExit --coverage"
+    "e2e": "jest --verbose --detectOpenHandles --forceExit --runInBand",
+    "e2e:coverage": "npm run e2e -- --coverage"
   },
   "keywords": [],
   "author": "",

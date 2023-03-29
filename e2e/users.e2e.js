@@ -1,26 +1,29 @@
 const request = require('supertest');
 
 const createApp = require('../src/app');
+const { models } = require('../src/db/sequelize');
 
 describe('Test for app', () => {
+  const endpoint = '/api/v1/users';
   let app = null;
   let server = null;
   let api = null;
 
   beforeEach(() => {
     app = createApp();
-
-    app.get('/hello', (_req, res) => {
-      res.status(200).json({ name: 'Robinson' });
-    });
-
     server = app.listen(3000);
-
     api = request(app);
   });
 
   describe('GET /users', () => {
-    // tests for users
+    test('should return a user', async () => {
+      const user = await models.User.findByPk(1);
+      const response = await api.get(`${endpoint}/${user.id}`);
+
+      expect(response.statusCode).toEqual(200);
+      expect(response.body.id).toEqual(user.id);
+      expect(response.body.email).toEqual(user.email);
+    });
   });
 
   describe('POST /users', () => {
@@ -32,7 +35,7 @@ describe('Test for app', () => {
       };
 
       // Act
-      const response = await api.post('/api/v1/users').send(inputData);
+      const response = await api.post(endpoint).send(inputData);
 
       // Assert
       expect(response.statusCode).toBe(400);
@@ -47,7 +50,7 @@ describe('Test for app', () => {
       };
 
       // Act
-      const response = await api.post('/api/v1/users').send(inputData);
+      const response = await api.post(endpoint).send(inputData);
 
       // Assert
       expect(response.statusCode).toBe(400);
