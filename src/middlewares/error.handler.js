@@ -1,7 +1,11 @@
 const { ValidationError } = require('sequelize');
+const { config } = require('../config/config');
 
-function logErrors (err, req, res, next) {
-  console.error(err);
+function logErrors(err, req, res, next) {
+  if (config.env === 'dev') {
+    // eslint-disable-next-line no-console
+    console.error(err);
+  }
   next(err);
 }
 
@@ -26,11 +30,10 @@ function ormErrorHandler(err, req, res, next) {
     res.status(409).json({
       statusCode: 409,
       message: err.name,
-      errors: err.errors
+      errors: err.errors,
     });
   }
   next(err);
 }
 
-
-module.exports = { logErrors, errorHandler, boomErrorHandler, ormErrorHandler }
+module.exports = { logErrors, errorHandler, boomErrorHandler, ormErrorHandler };

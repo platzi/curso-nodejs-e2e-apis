@@ -9,7 +9,7 @@ describe('Test for app', () => {
   let server = null;
   let api = null;
 
-  beforeEach(() => {
+  beforeAll(() => {
     app = createApp();
     server = app.listen(3000);
     api = request(app);
@@ -62,7 +62,7 @@ describe('Test for app', () => {
     // tests for users
   });
 
-  afterEach(() => {
+  afterAll(() => {
     server.close();
   });
 });
