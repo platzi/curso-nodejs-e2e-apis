@@ -1,6 +1,7 @@
 const request = require('supertest');
 
 const createApp = require('../src/app');
+const { config } = require('../src/config/config');
 
 describe('Test for app', () => {
   let app = null;
@@ -14,7 +15,7 @@ describe('Test for app', () => {
       res.status(200).json({ name: 'Robinson' });
     });
 
-    server = app.listen(3000);
+    server = app.listen(config.port);
 
     api = request(app);
   });

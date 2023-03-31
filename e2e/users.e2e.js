@@ -2,6 +2,8 @@ const request = require('supertest');
 
 const createApp = require('../src/app');
 const { models } = require('../src/db/sequelize');
+const { config } = require('../src/config/config');
+const { upSeed, downSeed } = require('./utils/umzug');
 
 describe('Test for app', () => {
   const endpoint = '/api/v1/users';
@@ -9,10 +11,11 @@ describe('Test for app', () => {
   let server = null;
   let api = null;
 
-  beforeAll(() => {
+  beforeAll(async () => {
     app = createApp();
-    server = app.listen(3000);
+    server = app.listen(config.port);
     api = request(app);
+    await upSeed();
   });
 
   describe('GET /users', () => {
@@ -56,13 +59,29 @@ describe('Test for app', () => {
       expect(response.statusCode).toBe(400);
       expect(response.body.message).toMatch(/email/);
     });
+
+    test('Should return a new user', async () => {
+      const inputData = {
+        email: 'silgifredo@mail.com',
+        password: 'password123',
+      };
+
+      const response = await api.post(endpoint).send(inputData);
+
+      expect(response.statusCode).toBe(201);
+
+      const user = await models.User.findByPk(response.body.id);
+      expect(user).toBeTruthy();
+      expect(user.email).toEqual(inputData.email);
+    });
   });
 
   describe('PUT /users', () => {
     // tests for users
   });
 
-  afterAll(() => {
+  afterAll(async () => {
+    await downSeed();
     server.close();
   });
 });
